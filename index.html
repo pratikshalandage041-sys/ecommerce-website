@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleHub - Excellent Clothing Brand</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">StyleHub</div>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search for clothing...">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+        <nav>
+            <a onclick="filterCategory('all')">All</a>
+            <a onclick="filterCategory('men')">Men</a>
+            <a onclick="filterCategory('women')">Women</a>
+            <a onclick="filterCategory('kids')">Kids</a>
+            <div class="wishlist-icon" onclick="showWishlist()">❤️ <span class="wishlist-count" id="wishlist-count">0</span></div>
+            <div class="cart-icon" onclick="showCart()">🛒 <span class="cart-count" id="cart-count">0</span></div>
+            <a onclick="showLogin()">Login</a>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div>
+            <h2>Exclusive Style Awaits</h2>
+            <p>Discover premium clothing with unparalleled elegance.</p>
+            <button onclick="scrollToProducts()">Shop Exclusive</button>
+        </div>
+    </section>
+    
+    <section class="featured-styles">
+        <h3>Featured Styles</h3>
+        <div class="style-grid">
+            <div class="style-item">
+                <img src="https://via.placeholder.com/250x150?text=Casual+Style" alt="Casual Style">
+                <h4>Casual</h4>
+                <p>Comfortable everyday wear.</p>
+                <button onclick="showSubStyles('casual')">Explore</button>
+            </div>
+            <div class="style-item">
+                <img src="https://via.placeholder.com/250x150?text=Formal+Style" alt="Formal Style">
+                <h4>Formal</h4>
+                <p>Elegant office and event attire.</p>
+                <button onclick="showSubStyles('formal')">Explore</button>
+            </div>
+            <div class="style-item">
+                <img src="https://via.placeholder.com/250x150?text=Bohemian+Style" alt="Bohemian Style">
+                <h4>Bohemian</h4>
+                <p>Free-spirited and artistic vibes.</p>
+                <button onclick="showSubStyles('bohemian')">Explore</button>
+            </div>
+            <div class="style-item">
+                <img src="https://via.placeholder.com/250x150?text=Streetwear+Style" alt="Streetwear Style">
+                <h4>Streetwear</h4>
+                <p>Urban and trendy fashion.</p>
+                <button onclick="showSubStyles('streetwear')">Explore</button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="sub-styles" id="sub-styles-section">
+        <h3>Choose a Sub-Style</h3>
+        <div class="sub-style-grid" id="sub-style-grid">
+            <!-- Sub-styles loaded dynamically -->
+        </div>
+    </section>
+    
+    <section class="categories">
+        <h3>Shop by Category</h3>
+        <div class="category-grid">
+            <div class="category" onclick="filterCategory('men')">👔 Men's Clothing</div>
+            <div class="category" onclick="filterCategory('women')">👗 Women's Clothing</div>
+            <div class="category" onclick="filterCategory('kids')">🧸 Kids' Clothing</div>
+            <div class="category" onclick="filterCategory('accessories')">💍 Accessories</div>
+        </div>
+    </section>
+    
+    <section class="filters">
+        <select id="price-filter" onchange="applyFilters()">
+            <option value="">Filter by Price</option>
+            <option value="0-50">$0 - $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100+">$100+</option>
+        </select>
+        <select id="size-filter" onchange="applyFilters()">
+            <option value="">Filter by Size</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <input type="text" id="brand-filter" placeholder="Filter by Brand" oninput="applyFilters()">
+    </section>
+    
+    <section class="products" id="products-section">
+        <!-- Products loaded dynamically -->
+    </section>
+    
+    <section class="deals">
+        <h3>Exclusive Deals</h3>
+        <div class="deal-grid">
+            <div class="deal">
+                <h4>🔥 50% Off on Dresses</h4>
+                <p>Limited time offer on premium styles!</p>
+            </div>
+            <div class="deal">
+                <h4>🎁 Buy 2 Get 1 Free on T-Shirts</h4>
+                <p>Valid on select exclusive items.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modals -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p class="price" id="modal-price"></p>
+            <button onclick="addToCartFromModal()">Add to Cart</button>
+            <button onclick="buyNowFromModal()">Buy Now</button>
+            <div class="reviews">
+                <h4>Reviews</h4>
+                <div class="review"><strong>John:</strong> Great quality! ⭐⭐⭐⭐⭐</div>
+                <div class="review"><strong>Jane:</strong> Fits perfectly. ⭐⭐⭐⭐</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal cart-modal" id="cart-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Your Cart</h3>
+            <div id="cart-items"></div>
+            <p class="total" id="cart-total">Total: $0</p>
+            <button onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+    
+    <div class="modal checkout-modal" id="checkout-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Checkout</h3>
+            <div class="payment-options">
+                <select id="payment-method">
+                    <option value="">Select Payment Method</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="upi">UPI</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+                <input type="text" id="card-number" placeholder="Card Number" style="display:none;">
+                <input type="text" id="expiry" placeholder="Expiry (MM/YY)" style="display:none;">
+                <input type="text" id="cvv" placeholder="CVV" style="display:none;">
+                <input type="email" id="paypal-email" placeholder="PayPal Email" style="display:none;">
+                <input type="text" id="upi-id" placeholder="UPI ID" style="display:none;">
+                <button onclick="completePurchase()">Complete Purchase</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Login / Signup</h3>
+            <input type="email" placeholder="Email" id="email">
+            <input type="password" placeholder="Password" id="password">
+            <button onclick="login()">Login</button>
+            <button onclick="signup()">Signup</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 StyleHub. All rights reserved.</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
